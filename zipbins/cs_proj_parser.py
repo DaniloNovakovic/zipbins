@@ -6,10 +6,10 @@ from typing import List
 
 @dataclass
 class CsProjConfig:
-    rootNamespace: str = ""
-    assemblyName: str = ""
-    outputType: str = ""
-    outputPaths: List[str] = field(default_factory=lambda: [])
+    root_namespace: str = ""
+    assembly_name: str = ""
+    output_type: str = ""
+    output_paths: List[str] = field(default_factory=lambda: [])
 
 
 class CsProjParser:
@@ -31,5 +31,5 @@ class CsProjParser:
         output_paths = [op.text for op in output_paths]
 
         return CsProjConfig(
-            rootNamespace=root_namespace.text, assemblyName=assembly_name.text,
-            outputType=output_type.text, outputPaths=output_paths)
+            root_namespace=root_namespace.text, assembly_name=assembly_name.text,
+            output_type=output_type.text, output_paths=output_paths)
