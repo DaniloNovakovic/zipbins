@@ -4,13 +4,29 @@
 
 Python CLI app that zips binary files for projects built with .net framework into a single .zip file
 
+---
+
 ## Installation
 
-To install zipbash cli run `install.sh` script (ex. `./install.sh` from bash terminal) or you can use `pip3` (ex. `pip3 install .`)
+The recommended version of Python is 3.7.x as other versions have not yet been tested.
+
+### install.sh
+
+The best way to install (and uninstall) your Python CLI app is to use pip (pip3 for Python 3). In the root directory of the CLI source code, running `pip3 install .` will install this app using `setup.py` as “instructions”. Likewise, running `pip3 uninstall pycli` will remove the app.
+
+I decided to put this logic in a shell script so that I didn’t have to always manually type out these commands (which gets very tedious when you are actively developing a CLI app). So I dump it all in a shell script.
+
+`pip3 install -e .`
+
+Now all I have to do is run `install.sh` to “recycle” the CLI on my machine with current source code.
+
+> Big thanks to [Thomas Stringer](https://github.com/trstringer) for his blog which you can read [here](https://medium.com/@trstringer/the-easy-and-nice-way-to-do-cli-apps-in-python-5d9964dc950d)
+
+---
 
 ## Usage
 
-```cmd
+```bash
 $ zipbins --help
 usage: zipbins [-h] [-v] [-p PATH] [-o OUTPUT]
 
@@ -25,7 +41,7 @@ optional arguments:
                         quotes (ex. "c:\dir1\dir2")
   -o OUTPUT, --output OUTPUT
                         Path to the output location relative to the provided
-                        `--path` (default: "./bins.zip").
+                        `--path` (default: "./bins.zip")
 
 Example: zipbins -p "c:\dev\myproj" -o "../myproj-bins.zip"
 ```
