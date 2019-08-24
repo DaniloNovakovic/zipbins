@@ -1,8 +1,8 @@
 import argparse
 import os
 from pathlib import Path
-from .cs_proj_parser import CsProjParser
-from .cs_proj_zipper import zip_bins
+from zipbins.csproj.zipper import zip_bins
+from zipbins.csproj.parser import CsProjParser
 
 
 def dir_path(path: str) -> Path:

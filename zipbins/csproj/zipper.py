@@ -1,6 +1,7 @@
 from pathlib import Path
 from zipfile import ZipFile
-from .cs_proj_parser import CsProjConfig, CsProjParser
+from zipbins.csproj.parser import CsProjParser
+from zipbins.csproj.config import CsProjConfig
 
 
 def gen_arcname(root_arcname: str, file_path: str, abs_out_path: str) -> str:
