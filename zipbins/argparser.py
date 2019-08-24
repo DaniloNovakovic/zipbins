@@ -1,17 +1,10 @@
 import argparse
 import os
 from pathlib import Path
+from zipbins.options import ZipBinsOptions
 
 
-def _dir_path(path: str) -> Path:
-    if os.path.isdir(path):
-        return Path(path).resolve()
-    else:
-        raise argparse.ArgumentTypeError(
-            f"readable_dir:{path} is not a valid path (hint: either use '/' as separator instead of '\\' or wrap path in '\"'' ")
-
-
-def get_args() -> argparse.Namespace:
+def get_args() -> ZipBinsOptions:
     ''' Parses command line arguments and returns `Namespace` wrapper containing the parsed objects'''
     parser = argparse.ArgumentParser(
         prog='zipbins',
@@ -26,4 +19,18 @@ def get_args() -> argparse.Namespace:
     parser.add_argument('-o', '--output', default='./bins.zip', type=Path,
                         help='Path to the output location relative to the provided `--path` (default: "%(default)s")')
 
-    return parser.parse_args()
+    args = parser.parse_args()
+    return _get_options(args)
+
+
+def _dir_path(path: str) -> Path:
+    if os.path.isdir(path):
+        return Path(path).resolve()
+    else:
+        raise argparse.ArgumentTypeError(
+            f"readable_dir:{path} is not a valid path (hint: either use '/' as separator instead of '\\' or wrap path in '\"'' ")
+
+
+def _get_options(args: argparse.Namespace) -> ZipBinsOptions:
+    args_dict = vars(args)
+    return ZipBinsOptions(root_path=args.path, output_dest=args.output)

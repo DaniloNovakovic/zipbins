@@ -14,14 +14,11 @@ def zip_bins(root_path: Path, output_dest: Path, zipper: CsProjZipper, search_pa
 
 def main():
     args = get_args()
-    root_path = Path(args.path)
-    output_dest = (root_path / args.output).resolve()
-
     parser = CsProjParser()
     zipper = CsProjZipper(parser=parser)
-    zip_bins(root_path, output_dest, zipper)
+    zip_bins(args.root_path, args.output_dest, zipper)
 
-    print(f"\nFinished zipping to '{output_dest}'")
+    print(f"\nFinished zipping to '{args.output_dest}'")
 
 
 if __name__ == "__main__":
