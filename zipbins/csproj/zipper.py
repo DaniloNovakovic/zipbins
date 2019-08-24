@@ -4,11 +4,6 @@ from zipbins.csproj.parser import CsProjParser
 from zipbins.csproj.config import CsProjConfig
 
 
-def _gen_arcname(root_arcname: str, file_path: str, abs_out_path: str) -> str:
-    replaced = Path(str.replace(str(file_path), str(abs_out_path), ""))
-    return str(root_arcname) + str(replaced)
-
-
 class CsProjZipper:
     def __init__(self, parser: CsProjParser):
         self.parser = parser
@@ -31,3 +26,8 @@ class CsProjZipper:
                 arcname = _gen_arcname(root_arcname, file_path, abs_out_path)
                 print(arcname)
                 zip.write(file_path, arcname)
+
+
+def _gen_arcname(root_arcname: str, file_path: str, abs_out_path: str) -> str:
+    replaced = Path(str.replace(str(file_path), str(abs_out_path), ""))
+    return str(root_arcname) + str(replaced)
