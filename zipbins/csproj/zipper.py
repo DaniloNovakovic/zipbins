@@ -4,31 +4,30 @@ from zipbins.csproj.parser import CsProjParser
 from zipbins.csproj.config import CsProjConfig
 
 
-def gen_arcname(root_arcname: str, file_path: str, abs_out_path: str) -> str:
+def _gen_arcname(root_arcname: str, file_path: str, abs_out_path: str) -> str:
     replaced = Path(str.replace(str(file_path), str(abs_out_path), ""))
     return str(root_arcname) + str(replaced)
 
 
-def zip_proj(zip: ZipFile, proj_path: Path, config: CsProjConfig):
-    if not proj_path.is_dir():
-        proj_path = proj_path.parent
+class CsProjZipper:
+    def __init__(self, parser: CsProjParser):
+        self.parser = parser
 
-    if config.output_type.lower() == "library":
-        return
+    def zip_proj(self, proj_path: Path, zip: ZipFile):
+        config = self.parser.parse(str(proj_path))
 
-    print(f'\nZipping "{proj_path}"...')
+        if not proj_path.is_dir():
+            proj_path = proj_path.parent
 
-    for out_path in config.output_paths:
-        abs_out_path = Path(proj_path.joinpath(out_path))
-        root_arcname = Path(f"/{config.root_namespace}").joinpath(out_path)
-        for file_path in abs_out_path.rglob("*.*"):
-            arcname = gen_arcname(root_arcname, file_path, abs_out_path)
-            print(arcname)
-            zip.write(file_path, arcname)
+        if config.output_type.lower() == "library":
+            return
 
+        print(f'\nZipping "{proj_path}"...')
 
-def zip_bins(root_path: Path, output_dest: Path, parser: CsProjParser, search_pattern="*.csproj"):
-    with ZipFile(output_dest, "w") as zip:
-        for path in Path(root_path).rglob(search_pattern):
-            config = parser.parse(str(path))
-            zip_proj(zip, path, config)
+        for out_path in config.output_paths:
+            abs_out_path = Path(proj_path.joinpath(out_path))
+            root_arcname = Path(f"/{config.root_namespace}").joinpath(out_path)
+            for file_path in abs_out_path.rglob("*.*"):
+                arcname = _gen_arcname(root_arcname, file_path, abs_out_path)
+                print(arcname)
+                zip.write(file_path, arcname)

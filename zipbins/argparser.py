@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 
-def dir_path(path: str) -> Path:
+def _dir_path(path: str) -> Path:
     if os.path.isdir(path):
         return Path(path).resolve()
     else:
@@ -20,7 +20,7 @@ def get_args() -> argparse.Namespace:
 
     parser.add_argument('-v', '--version', action='version',
                         version='%(prog)s 1.0')
-    parser.add_argument('-p', '--path', default='.', type=dir_path,
+    parser.add_argument('-p', '--path', default='.', type=_dir_path,
                         help='''Path to the root folder (default: "%(default)s").
                         When entering value you should either use "/" instead of "\\" as delimiter (ex. ../dir/subdir), or wrap path in double quotes (ex. "c:\dir1\dir2")''')
     parser.add_argument('-o', '--output', default='./bins.zip', type=Path,
